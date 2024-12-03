@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tombola</title>
+    <style>
+        /* Reset des marges et styles par défaut */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            /* Fond noir en cas d'espace visible */
+            height: 100vh;
+            /* Hauteur de la page */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            /* Police moderne */
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            /* Taille par défaut pour les grands écrans */
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.8);
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.5em;
+            /* Texte lisible sur grands écrans */
+            line-height: 1.6;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            margin-bottom: 30px;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .myButton {
+            background: linear-gradient(45deg, #ff6f61, #ff3d3d);
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .myButton:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #ff3d3d, #ff1a1a);
+        }
+
+        .myButton:active {
+            transform: translateY(2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsiveness */
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 2.5em;
+                /* Taille réduite pour les tablettes */
+            }
+
+            p {
+                font-size: 1.2em;
+                /* Réduction de la taille du texte */
+            }
+
+            .myButton {
+                font-size: 1em;
+                /* Taille de bouton adaptée */
+                padding: 12px 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+                /* Texte réduit pour petits écrans */
+            }
+
+            p {
+                font-size: 1em;
+                /* Paragraphe encore plus lisible */
+            }
+
+            .myButton {
+                font-size: 0.9em;
+                padding: 10px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            p {
+                font-size: 0.9em;
+            }
+
+            .myButton {
+                font-size: 0.8em;
+                padding: 8px 20px;
+            }
+        }
+
+        /* Image style */
+        .background-image {
+            width: 60%;
+            max-width: 600px;
+            margin-top: 30px;
+            /* Espace entre le texte et l'image */
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Tombola 50 ans Bordeaux 65</h1>
+    <p>
+        Merci de participer à notre tombola !<br>Choisissez votre catégorie de tirage et que la chance soit avec vous.
+    </p>
+    <img class="background-image" src="images/image.png" alt="Tombola Image">
+    <!-- L'image est maintenant un élément distinct sous le texte -->
+
+    <div class="button-container">
+        <button class="myButton" onclick="window.location.href = 'tombola.html';">Play</button>
+    </div>
+</body>
+
+</html>

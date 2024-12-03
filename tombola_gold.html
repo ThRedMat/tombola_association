@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tombola de Luxe</title>
+    <style>
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #9c27b0;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 30px;
+            animation: bounce 3s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        b {
+            background: linear-gradient(135deg, #ffd700, #ff6347);
+            width: 180px;
+            height: 180px;
+            line-height: 180px;
+            font-size: 5rem;
+            display: inline-block;
+            margin: 15px;
+            border: 3px solid #9c27b0;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        b:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="button"] {
+            background-color: #9c27b0;
+            color: #fff;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 35px;
+            padding: 15px 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        input[type="button"]:hover {
+            background-color: #7b1fa2;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        #result-box {
+            margin-top: 30px;
+            padding: 20px;
+            border: 3px solid #9c27b0;
+            border-radius: 15px;
+            background-color: #fce4ec;
+            font-size: 1.2rem;
+            text-align: center;
+            max-width: 450px;
+            margin: 30px auto;
+            word-wrap: break-word;
+        }
+
+        #result-box div {
+            margin: 15px 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #9c27b0;
+        }
+
+        .number {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: 3px solid #9c27b0;
+            border-radius: 10px;
+            background-color: #fff;
+            color: #9c27b0;
+            font-size: 1.4rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .number:hover {
+            transform: scale(1.1);
+        }
+
+        /* Overlay styles */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            text-align: center;
+            display: none;
+            flex-direction: column;
+            padding: 40px;
+        }
+
+        #overlay video {
+            max-width: 1000px;
+            margin-bottom: 30px;
+        }
+
+        #overlay div {
+            color: #fff;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Style du bouton Retour */
+        #return-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #ff5722;
+            color: white;
+            font-size: 1rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        #return-button:hover {
+            background-color: #e64a19;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+    <script>
+        let availableNumbers = Array.from({ length: 100 }, (_, i) => i); // Numbers from 0 to 99
+        let results = [];
+
+        const tirage = function () {
+            if (availableNumbers.length < 1) {
+                alert("Tous les numéros ont été tirés !");
+                return;
+            }
+
+            // Tirer un numéro au hasard
+            const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+            const number = availableNumbers[randomIndex];
+
+            // Supprimer le numéro tiré
+            availableNumbers.splice(randomIndex, 1);
+
+            // Mettre à jour les boules (afficher un seul numéro)
+            document.getElementById("b1").innerHTML = number;
+
+            // Ajouter le résultat dans l'encadré
+            updateResultBox(number);
+        };
+
+        const updateResultBox = function (number) {
+            const resultBox = document.getElementById("result-box");
+            const newLine = `<div>Tirage ${results.length + 1}: <span class="number">${number}</span></div>`;
+            resultBox.innerHTML += newLine;
+
+            // Ajouter à la liste des résultats
+            results.push(number);
+        };
+
+        const showOverlay = function () {
+            const overlay = document.getElementById("overlay");
+            overlay.style.display = "flex";
+
+            setTimeout(() => {
+                overlay.style.display = "none";
+                tirage();
+            }, 3000); // Overlay visible pendant 3 secondes
+        };
+    </script>
+</head>
+
+<body>
+    <!-- Bouton Retour -->
+    <button id="return-button" onclick="window.location.href = 'tombola.html';">Retour</button>
+
+    <!-- Image ajoutée -->
+    <img src="images/tombola_gold.png" alt="Tombola Gold">
+
+    <h1>Tombola de Luxe</h1>
+    <b id="b1">?</b>
+    <br><br>
+    <input type="button" value="Nouveau tirage" onclick="showOverlay();">
+    <div id="result-box"></div>
+
+    <!-- Overlay -->
+    <div id="overlay">
+        <video id="loading-video" src="images/loto.mp4" autoplay muted loop></video>
+        <div>Veuillez patienter...</div>
+    </div>
+</body>
+
+</html>
