@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tombola Standard</title>
+    <title>Tombola 50 ans</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <style>
@@ -94,7 +94,7 @@
         }
 
         #result-box div {
-            margin: 15px 0;
+            margin: 10px 0;
             font-size: 1.5rem;
             font-weight: bold;
             color: #333;
@@ -167,6 +167,50 @@
             background-color: #e64a19;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
         }
+
+        /* Conteneur principal */
+        #container {
+            display: flex;
+            justify-content: space-between;
+            /* Espace entre les deux divs */
+            align-items: center;
+            /* Aligne les divs verticalement */
+            max-width: 1200px;
+            /* Largeur maximale du conteneur */
+            margin: 0 auto;
+            /* Centrer le conteneur horizontalement */
+            padding: 20px;
+            /* Optionnel, ajoute de l'espace autour */
+            /*height: 100vh;
+            /* Prend toute la hauteur de la fenêtre */
+            box-sizing: border-box;
+            /* Inclut les marges et paddings */
+        }
+
+        /* Section gauche centrée */
+        #left-content {
+            flex: 0 0 auto;
+            /* Empêche de s'étirer */
+            text-align: center;
+            margin: auto;
+            /* Centre le contenu verticalement dans le conteneur */
+        }
+
+        #result-box {
+            flex: 0 0 300px;
+            /* Largeur fixe */
+            height: 630px;
+            /* Hauteur limitée pour éviter d'étendre trop la page */
+            overflow-y: auto;
+            /* Ajout d'un défilement vertical si le contenu dépasse */
+            margin-left: 20px;
+            padding: 20px;
+            border: 2px solid #4caf50;
+            border-radius: 15px;
+            background-color: #e8f5e9;
+            font-size: 1.2rem;
+            word-wrap: break-word;
+        }
     </style>
     <script>
         let availableNumbers = Array.from({ length: 100 }, (_, i) => i); // Numbers from 0 to 99
@@ -208,7 +252,7 @@
             setTimeout(() => {
                 overlay.style.display = "none";
                 tirage();
-            }, 10000); // 10 seconds
+            }, 1000); // 10 seconds
         };
     </script>
 </head>
@@ -217,14 +261,22 @@
     <!-- Bouton Retour -->
     <button id="return-button" onclick="window.location.href = 'tombola.html';">Retour</button>
 
+    <img src="images/club_41.jpg" alt="Tombola 50 ans">
     <!-- Image ajoutée -->
     <img src="images/tombola.png" alt="Tombola Standard">
 
-    <h1>Tombola Standard</h1>
-    <b id="b1">?</b>
-    <br><br>
-    <input type="button" value="Nouveau tirage" onclick="showOverlay();">
-    <div id="result-box"></div>
+    <h1>Tombola 50 ans</h1>
+    <div id="container">
+        <div id="left-content">
+            <b id="b1">?</b>
+            <br><br>
+            <input type="button" value="Nouveau tirage" onclick="showOverlay();">
+        </div>
+        <div id="result-box"></div>
+    </div>
+
+
+
 
     <div id="overlay">
         <video id="loading-video" src="images/loto.mp4" autoplay muted loop></video>
