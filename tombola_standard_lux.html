@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tombola 50 ans - Tirage des 74 premiers numéros</title>
+    <title>Tombola 50 ans - Tirage des 13 derniers numéros</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         body {
@@ -14,7 +14,12 @@
             text-align: center;
             padding: 50px;
             margin: 0;
-
+            background-image: url('images/picsou.jpg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            /* Changer de cover à contain */
+            background-position: center;
+            background-attachment: fixed;
         }
 
 
@@ -227,54 +232,53 @@
             color: white;
         }
     </style>
-</head>
-
-<body>
-    <button id="return-button" onclick="window.location.href = 'tombola_standard_lux.html';">Passer au tirage des 13
-        derniers
-        numéros</button>
-
-    <h1>Tombola 50 ans - Tirage des 74 premiers numéros</h1>
-
-    <div id="container">
-        <div id="left-content">
-            <b id="b1">?</b>
-            <br><br>
-            <input type="button" value="Tirer les 74 numéros" onclick="tirageInitial()">
-        </div>
-        <div id="result-box"></div>
-    </div>
-
-    <div id="overlay">
-        <video id="loading-video" src="images/loto.mp4" autoplay muted loop></video>
-        <div>Veuillez patienter...</div>
-    </div>
 
     <script>
-        let availableNumbers = Array.from({ length: 100 }, (_, i) => i);
-        let drawnNumbers = [];
+        // Récupérer les numéros déjà tirés du premier tirage (stockés dans localStorage)
+        const tiragePrecedent = JSON.parse(localStorage.getItem('tirage1')) || [];
+        // Créer une liste des numéros disponibles en excluant les numéros déjà tirés
+        let availableNumbers = Array.from({ length: 100 }, (_, i) => i).filter(num => !tiragePrecedent.includes(num));
 
-        // Tirage des 74 premiers numéros
-        const tirageInitial = function () {
-            if (availableNumbers.length < 26) {
-                alert("Tous les numéros ont été tirés !");
+        // Initialiser une variable pour suivre les numéros tirés pendant ce tirage
+        let drawnNumbers = [];
+        let remainingDraws = 13; // Limiter le tirage à 13 numéros
+
+        // Fonction pour tirer un numéro (13 derniers numéros)
+        const tirageFinal = function () {
+            if (availableNumbers.length === 0 || remainingDraws === 0) {
+                alert("Tous les numéros ont été tirés ou la limite de tirage de 13 numéros a été atteinte !");
                 return;
             }
 
-            // Tirer 74 numéros au hasard
-            while (drawnNumbers.length < 74) {
-                const randomIndex = Math.floor(Math.random() * availableNumbers.length);
-                const number = availableNumbers[randomIndex];
+            // Tirer un numéro au hasard parmi les numéros restants
+            const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+            const number = availableNumbers[randomIndex];
 
-                drawnNumbers.push(number);
-                availableNumbers.splice(randomIndex, 1);
+            // Ajouter le numéro tiré à la liste des numéros tirés
+            drawnNumbers.push(number);
+
+            // Supprimer le numéro tiré
+            availableNumbers.splice(randomIndex, 1);
+
+            // Mettre à jour les boules (afficher un seul numéro)
+            document.getElementById("b1").innerHTML = number;
+
+            // Supprimer le numéro tiré de la liste des numéros disponibles
+            availableNumbers.splice(randomIndex, 1);
+
+            // Réduire le nombre de tirages restants
+            remainingDraws--;
+
+            // Mettre à jour l'affichage avec le numéro tiré
+            updateResultBox(number);
+
+            // Vérifier si 13 numéros ont été tirés
+            if (remainingDraws === 0) {
+                alert("Vous avez tiré les 13 numéros !");
             }
-
-            // Sauvegarder les numéros tirés dans le localStorage
-            localStorage.setItem('tirage1', JSON.stringify(drawnNumbers));
-            drawnNumbers.forEach(number => updateResultBox(number));
         };
 
+        // Fonction pour mettre à jour l'affichage des résultats
         const updateResultBox = function (number) {
             const resultBox = document.getElementById("result-box");
 
@@ -283,7 +287,7 @@
 
             const lotTitle = document.createElement("div");
             lotTitle.className = "lot-title";
-            lotTitle.textContent = `Lot n° ${drawnNumbers.indexOf(number) + 1}`;
+            lotTitle.textContent = `Lot n° ${drawnNumbers.length}`;
 
             const numberDiv = document.createElement("div");
             numberDiv.className = "number";
@@ -294,7 +298,43 @@
 
             resultBox.appendChild(lotContainer);
         };
+        const showOverlay = function () {
+            const overlay = document.getElementById("overlay");
+            overlay.style.display = "flex";
+
+            setTimeout(() => {
+                overlay.style.display = "none";
+                tirageFinal();
+            }, 5000); // Overlay visible pendant 5 secondes
+        };
     </script>
+</head>
+
+<body>
+    <!-- Bouton Retour -->
+    <button id="return-button" onclick="window.location.href = 'tombola.html';">Retour</button>
+
+    <div id="title-container">
+        <img src="images/club_41.jpg" alt="Tombola 50 ans">
+        <h1>Tombola 50 ans</h1>
+        <img src="images/tombola.png" alt="Tombola Standard">
+    </div>
+
+    <div id="container">
+        <div id="left-content">
+            <b id="b1" class="numero">?</b>
+            <br><br>
+            <input type="button" value="Nouveau tirage" onclick="showOverlay();">
+        </div>
+        <div id="result-box">
+            <!-- Les numéros tirés s'afficheront ici -->
+        </div>
+    </div>
+
+    <div id="overlay">
+        <video id="loading-video" src="images/loto.mp4" autoplay muted loop></video>
+        <div>Veuillez patienter...</div>
+    </div>
 </body>
 
 </html>
